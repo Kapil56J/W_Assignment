@@ -15,6 +15,7 @@ import {
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Chip from '@mui/material/Chip';
 
+// Constants for menu item height and padding
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -42,9 +43,11 @@ interface FilterBarProps {
     minBasePay: number[];
     onSearch: (filters: { locations: string[]|any, jobRoles: string[]|any,  minExperience: number | null, minBasePay: number | null }, companyName: string) => void;
 }
-// 
+
 const FilterBar: React.FC<FilterBarProps> = ({ locations, jobRoles,minExperiences, minBasePay, onSearch }) => {
     const theme = useTheme();
+
+    // State variables for selected filter options
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedJobRoles, setSelectedJobRoles] = useState<string[]>([]);
     const [selectedMinExperience, setSelectedMinExperience] = useState<number | null>(null);
@@ -54,6 +57,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ locations, jobRoles,minExperience
     const sortedMinExperiences = minExperiences?.slice().sort((a, b) => a - b);
     const sortedMinBasepay = minBasePay?.slice().sort((a, b) => a - b);
 
+    // Handlers for changing filter options
     const handleLocationChange = (event: SelectChangeEvent<typeof selectedLocations>) => {
         const {
             target: { value },
@@ -85,6 +89,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ locations, jobRoles,minExperience
         setCompanyName(event.target.value);
     };
 
+    // Handler for initiating search
     const handleSearch = () => {
         console.log(selectedLocations, selectedJobRoles, selectedMinExperience, selectedMinBasePay, companyName);
         onSearch({
@@ -95,6 +100,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ locations, jobRoles,minExperience
         }, companyName);
     };
 
+    // Render
     return (
         <Grid container spacing={2} alignItems="center" mx={2}>
             <Grid item md={2}>

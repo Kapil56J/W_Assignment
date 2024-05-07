@@ -5,6 +5,7 @@ import { JobDetails } from '../Types';
 import FilterBar from './FilterBar';
 
 const MainComponent = () => {
+    // State variables
     const [jobData, setJobData] = useState<JobDetails[] | null | any>(null);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -12,9 +13,12 @@ const MainComponent = () => {
     const [jobRoles, setJobRoles] = useState<string[] | any>([]);
     const [minExperiences, setMinExperiences] = useState<number[] | any>(); 
     const [minBasePay, setMinBasepay] = useState<number[] | any>([]); 
+
+    // Refs
     const observer = useRef<IntersectionObserver | null>(null);
     const lastJobElementRef = useRef<HTMLDivElement | null>(null);
 
+    // Fetch data from API
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -49,6 +53,7 @@ const MainComponent = () => {
         fetchData();
     }, []);
 
+    // Intersection Observer for infinite scrolling
     useEffect(() => {
         const options = {
             root: null,
@@ -73,6 +78,7 @@ const MainComponent = () => {
         };
     }, [loading, hasMore]);
 
+    // Update filter options when job data changes
     useEffect(() => {
         if (jobData) {
             const allLocations = jobData.map((job: { location: any; }) => job.location);
@@ -93,6 +99,7 @@ const MainComponent = () => {
         }
     }, [jobData]);
 
+    // Search the job base on filters
     const filterJobData = (filters: { locations: string[]; jobRoles: string[];  minExperience: number | null; minBasePay: number | null;}, companyName: string) => {
         let filteredData = jobData;
         
@@ -118,7 +125,8 @@ const MainComponent = () => {
 
         return filteredData;
     };
-    // 
+    
+    
     const handleSearch = (filters: { locations: string[], jobRoles: string[], minExperience: number | null, minBasePay: number | null }, companyName: string) => {
         console.log('Filters:', filters);
         console.log('Company Name:', companyName);
@@ -129,7 +137,8 @@ const MainComponent = () => {
         // Update state with the filtered data
         setJobData(filteredData);
     };
-    // 
+    
+    // Render
     return (
         <Grid container spacing={1} mt={2}>
             <FilterBar locations={locations} jobRoles={jobRoles} minExperiences={minExperiences} minBasePay={minBasePay} onSearch={handleSearch}/>
