@@ -1,7 +1,6 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import HeaderBar from './Component/HeaderBar';
+import MainComponent from './Component/MainComponent';
 
 export default function App() {
-  return <HeaderBar />;
+  return <MainComponent />;
 }
